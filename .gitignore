@@ -1,0 +1,6 @@
+# vim
+*.sw[op]
+
+# jekyll generated
+_site/
+.jekyll-metadata
