@@ -1,7 +1,7 @@
 ---
 layout: slide
-title: "Jekyll: Make presentation page with reveal.js"
-description: A presentation slide for how to use reveal.js in Jekyll
+title: "Inline Markdown Only"
+description: A presentation for reveal.js using only inline markdown
 theme: black
 transition: slide
 ---
