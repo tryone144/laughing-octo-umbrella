@@ -26,7 +26,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
         <link rel="stylesheet" href="{{ "/reveal.js/css/reveal.css" | prepend: site.baseurl }}"/>
-        {%if page.theme %}
+        {% if page.theme %}
         <link rel="stylesheet" href="{{ "/reveal.js/css/theme/" | prepend: site.baseurl | append: page.theme | append: '.css' }}" id="theme"/>
         {% else %}
         <link rel="stylesheet" href="{{ "/reveal.js/css/theme/black.css" | prepend: site.baseurl }}" id="theme"/>
@@ -34,6 +34,33 @@
 
         <!-- Code syntax highlighting -->
         <link rel="stylesheet" href="{{ "/reveal.js/lib/css/zenburn.css" | prepend: site.baseurl }}"/>
+
+        <!-- Custom style additions -->
+        <style type="text/css">
+            .tl-spoiler {
+                font-size: 1.5em;
+                font-family: "Source Sans Pro", Helvetica, sans-serif;
+                display: block;
+                position: absolute;
+                z-index: 10;
+                top: 5px;
+                left: 5px;
+            }
+            .tl-spoiler a {
+                color: #4CAF50;
+                text-decoration: none;
+                padding: 5px;
+                display: block;
+                visibility: hidden;
+                opacity: 0;
+                transition: opacity 2s ease, visibility 0s linear 2s;
+            }
+            .tl-spoiler:hover a {
+                transition: opacity 2s ease, visibility 0s linear;
+                visibility: visible;
+                opacity: 1;
+            }
+        </style>
 
         <!-- Printing and PDF exports -->
         <script>
@@ -53,9 +80,28 @@
         <![endif]-->
     </head>
     <body>
+        <span class="tl-spoiler"><a id="jekyll-button-home" href="{{ site.url }}">🏠 Go Back</a></span>
+        <script>
+            var btn = document.getElementById('jekyll-button-home');
+            if (document.referrer !== "" && document.referrer !== (window.location.origin + window.location.pathname)) {
+                btn.setAttribute('href', document.referrer);
+            }
+        </script>
+
         <div class="reveal">
             <div class="slides">
+                {% assign file_ext =  page.path | split:"." | last %}
+                {% if file_ext == "md" %}
+                <section data-markdown
+                         data-separator="^---"
+                         data-separator-vertical="^\n\n"
+                         data-separator-notes="^Note:"
+                         data-charset="utf-8">
+                    <textarea data-template>{{ page.content }}</textarea>
+                </section>
+                {% else %}
                 {{ content }}
+                {% endif %}
             </div>
         </div>
 
@@ -69,8 +115,9 @@
                 progress: true,
                 history: true,
                 center: true,
+                zoomKey: 'shift',
                 {%if page.transition %}
-                    transition: '{{page.transition}}',
+                    transition: '{{ page.transition }}',
                 {% else %}
                     transition: 'slide', // none/fade/slide/convex/concave/zoom
                 {% endif %}
@@ -78,7 +125,7 @@
                 // Optional reveal.js plugins
                 dependencies: [
                     { src: '{{ "/reveal.js/lib/js/classList.js" | prepend: site.baseurl }}', condition: function() { return !document.body.classList; } },
-                    //{ src: '{{ "/reveal.js/plugin/markdown/marked.js" | prepend: site.baseurl }}', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '{{ "/reveal.js/plugin/markdown/marked.js" | prepend: site.baseurl }}', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                     { src: '{{ "/reveal.js/plugin/markdown/markdown.js" | prepend: site.baseurl }}', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                     { src: '{{ "/reveal.js/plugin/highlight/highlight.js" | prepend: site.baseurl }}', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
                     { src: '{{ "/reveal.js/plugin/zoom-js/zoom.js" | prepend: site.baseurl }}', async: true },
