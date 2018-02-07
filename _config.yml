@@ -5,12 +5,33 @@ show_downloads: false
 google_analytics:
 
 timezone: Europe/Berlin
+locale: de_DE
 encoding: UTF-8
 
 markdown: kramdown
 kramdown:
-  input: GFM
-  hard_wrap: false
+    input: GFM
+    hard_wrap: false
+
+exclude: 
+    - Gemfile
+    - Gemfile.lock
+    - README.md
+    - reveal.js/bower.json
+    - reveal.js/CONTRIBUTING.md
+    - reveal.js/demo.html
+    - reveal.js/Gruntfile.js
+    - reveal.js/index.html
+    - reveal.js/LICENSE
+    - reveal.js/node_modules
+    - reveal.js/package.json
+    - reveal.js/README.md
+    - reveal.js/test
+include: 
+    - reveal.js/css
+    - reveal.js/js
+    - reveal.js/lib
+    - reveal.js/plugin
 
 safe: true
 strict_front_matter: true
