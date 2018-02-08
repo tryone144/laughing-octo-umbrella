@@ -49,8 +49,8 @@ ul.slide-actions li {
                 <p class="slide-description">{{ slide.description }}</p>
                 {% if include.actions %}
                 <ul class="slide-actions">
-                    <li><a href="{{ slide.url | prepend: site.base_url }}">open</a></li>
-                    <li><a href="{{ slide.url | prepend: site.base_url | append: '?print-pdf' }}">print</a></li>
+                    <li><a href="{{ slide.url | prepend: site.baseurl }}">open</a></li>
+                    <li><a href="{{ slide.url | prepend: site.baseurl | append: '?print-pdf' }}">print</a></li>
                 </ul>
                 {% endif %}
             </li>
