@@ -118,6 +118,42 @@
         <script src="{{ "/reveal.js/lib/js/head.min.js" | prepend: site.baseurl }}"></script>
         <script src="{{ "/reveal.js/js/reveal.js" | prepend: site.baseurl }}"></script>
         <script>
+            var multiplex_config;
+            var multiplex_deps;
+
+if (window.location.search.match( /master/gi )) {
+    multiplex_config = {
+        secret: '15180515517669418954',
+        id: '8b027f1665d55866',
+        url: 'https://reveal-js-multiplex-ccjbegmaii.now.sh',
+    };
+    multiplex_deps = [
+        { src: 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js', async: true },
+        { src: '{{ "/reveal.js/plugin/multiplex/master.js" | prepend: site.baseurl }}', async: true },
+    ];
+} else {
+    multiplex_config = {
+        secret: null,
+        id: '8b027f1665d55866',
+        url: 'https://reveal-js-multiplex-ccjbegmaii.now.sh',
+    };
+    multiplex_deps = [
+        { src: 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js', async: true },
+        { src: '{{ "/reveal.js/plugin/multiplex/client.js" | prepend: site.baseurl }}', async: true },
+    ];
+}
+
+            var dependencies = [
+                { src: '{{ "/reveal.js/lib/js/classList.js" | prepend: site.baseurl }}', condition: function() { return !document.body.classList; } },
+                { src: '{{ "/reveal.js/plugin/markdown/marked.js" | prepend: site.baseurl }}', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                { src: '{{ "/reveal.js/plugin/markdown/markdown.js" | prepend: site.baseurl }}', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                { src: '{{ "/reveal.js/plugin/highlight/highlight.js" | prepend: site.baseurl }}', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                { src: '{{ "/reveal.js/plugin/zoom-js/zoom.js" | prepend: site.baseurl }}', async: true },
+                { src: '{{ "/reveal.js/plugin/notes/notes.js" | prepend: site.baseurl }}', async: true },
+            ];
+            dependencies = dependencies.concat(multiplex_deps);
+console.log(dependencies);
+
             // Full list of configuration options available at:
             // https://github.com/hakimel/reveal.js#configuration
             Reveal.initialize({
@@ -131,16 +167,10 @@
                 {% else %}
                     transition: 'slide', // none/fade/slide/convex/concave/zoom
                 {% endif %}
+                multiplex: multiplex_config,
 
                 // Optional reveal.js plugins
-                dependencies: [
-                    { src: '{{ "/reveal.js/lib/js/classList.js" | prepend: site.baseurl }}', condition: function() { return !document.body.classList; } },
-                    { src: '{{ "/reveal.js/plugin/markdown/marked.js" | prepend: site.baseurl }}', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                    { src: '{{ "/reveal.js/plugin/markdown/markdown.js" | prepend: site.baseurl }}', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                    { src: '{{ "/reveal.js/plugin/highlight/highlight.js" | prepend: site.baseurl }}', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-                    { src: '{{ "/reveal.js/plugin/zoom-js/zoom.js" | prepend: site.baseurl }}', async: true },
-                    { src: '{{ "/reveal.js/plugin/notes/notes.js" | prepend: site.baseurl }}', async: true }
-                ]
+                dependencies: dependencies,
             });
 
             // Show print dialog
