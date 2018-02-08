@@ -13,5 +13,6 @@ The [reveal.js](https://revealjs.com) demonstration
 ---
 
 # Plain Markdown
+<!-- .slide: data-background-image="/assets/gif/deadpool.gif" -->
 
 This presentation uses plain markdown, directly rendererd by reveal.js
