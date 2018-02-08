@@ -6,7 +6,7 @@ __Revealing Octocats__ allows you to host your [reveal.js](https://revealjs.com)
 
 # Usage
 
-See the [README]({% link readme.html %}) for more details.
+See the [README]({{ "/readme.html" | prepend: site.baseurl }}) for more details.
 
 ## Demonstration
 
@@ -19,12 +19,12 @@ See the [README]({% link readme.html %}) for more details.
 <!-- deleteme -->
 {% capture slidespath %}{% link slides.md %}{% endcapture %}
 {% assign slidespath = slidespath | split: "/" %}
-{% assign slidespath = slidespath[1] %}
+{% assign slidespath = slidespath[1] | prepend: "/" %}
 <!-- endof: deleteme -->
 
-[Demo]({% link slides/demo.html %}) using default html syntax.
+[Demo]({{ slidespath | prepend: site.baseurl | append: "/demo.html" }}) using default html syntax.
 
-Small [demo]({% link slides/demo2.md %}) using only inline-markdown.
+Small [demo]({{ slidespath | prepend: site.baseurl | append: "/demo2.html" }}) using only inline-markdown.
 
 
 # Most Recent Slides
