@@ -1,0 +1,26 @@
+<noscript>
+    <style type="text/css">
+        body {
+            background-color: black;
+            color: red;
+        }
+        noscript {
+            position: absolute;
+            margin: 0;
+            margin-right: -50%;
+            top: 50%;
+            left: 50%;
+            width: 75%;
+            font-size: 28pt;
+            text-align: center;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+    {% if include.msg %}
+        {{ include.msg | markdownify }}
+    {% else %}
+        <h1><em>{{ include.name | default: page.title }}</em> needs JavaScript to work properly!</h1>
+        <span>Please enable JavaScript in your browser.</span>
+    {% endif %}
+</noscript>

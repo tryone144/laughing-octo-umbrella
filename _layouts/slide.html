@@ -37,25 +37,29 @@
 
         <!-- Custom style additions -->
         <style type="text/css">
-            .tl-spoiler {
+            .print-pdf .tl-button-spoiler {
+                display: none;
+            }
+            .tl-button-spoiler {
                 font-size: 1.5em;
                 font-family: "Source Sans Pro", Helvetica, sans-serif;
                 display: block;
-                position: absolute;
+                position: fixed;
                 z-index: 10;
                 top: 5px;
                 left: 5px;
             }
-            .tl-spoiler a {
+            .tl-button-spoiler a {
                 color: #4CAF50;
+                text-shadow: 0 0 1em #4CAF50;
                 text-decoration: none;
                 padding: 5px;
-                display: block;
+                display: inline-block;
                 visibility: hidden;
                 opacity: 0;
                 transition: opacity 2s ease, visibility 0s linear 2s;
             }
-            .tl-spoiler:hover a {
+            .tl-button-spoiler:hover a {
                 transition: opacity 2s ease, visibility 0s linear;
                 visibility: visible;
                 opacity: 1;
@@ -73,16 +77,22 @@
 
         <link rel="apple-touch-icon" href="{{ "/apple-touch-icon.png" | prepend: site.baseurl }}" />
 
-        <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+        <link rel="canonical" href="{{ page.url | replace: 'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 
         <!--[if lt IE 9]>
         <script src="lib/js/html5shiv.js"></script>
         <![endif]-->
     </head>
     <body>
-        <span class="tl-spoiler"><a id="jekyll-button-home" href="{{ site.url }}">🏠 Go Back</a></span>
+        <!-- noscript message -->
+        {% include noscript-msg.html name="reveal.js" %}
+
+        <span class="tl-button-spoiler">
+            <a id="octo-button-home" href="{{ site.url }}">🏠 Go Back</a>
+            <a id="octo-button-print" href="javascript:window.open('{{ page.url | prepend: site.baseurl | append: '?print-pdf' }}')">🖶 Print</a>
+        </span>
         <script>
-            var btn = document.getElementById('jekyll-button-home');
+            var btn = document.getElementById('octo-button-home');
             if (document.referrer !== "" && document.referrer !== (window.location.origin + window.location.pathname)) {
                 btn.setAttribute('href', document.referrer);
             }
@@ -90,7 +100,7 @@
 
         <div class="reveal">
             <div class="slides">
-                {% assign file_ext = page.path | split:"." | last %}
+                {% assign file_ext = page.path | split: "." | last %}
                 {% if file_ext == "md" %}
                 <section data-markdown
                          data-separator="^---"
@@ -116,7 +126,7 @@
                 history: true,
                 center: true,
                 zoomKey: 'shift',
-                {%if page.transition %}
+                {% if page.transition %}
                     transition: '{{ page.transition }}',
                 {% else %}
                     transition: 'slide', // none/fade/slide/convex/concave/zoom
@@ -132,6 +142,20 @@
                     { src: '{{ "/reveal.js/plugin/notes/notes.js" | prepend: site.baseurl }}', async: true }
                 ]
             });
+
+            // Show print dialog
+            if (window.location.search.match( /print-pdf/gi )) {
+                setTimeout(function() {
+                    window.print();
+                    setTimeout(function() {
+                        if (window.history.length > 2) {
+                            window.history.back();
+                        } else {
+                            window.close();
+                        }
+                    }, 100);
+                }, 500);
+            }
         </script>
     </body>
 </html>

@@ -1,0 +1,63 @@
+<!-- Use hacks as long as https://github.com/jekyll/jekyll/issues/6209
+    and https://github.com/jekyll/jekyll/issues/6211 are not fixed -->
+
+<style type="text/css">
+p.slide-description {
+    margin-bottom: 0;
+}
+ul.slide-list > li {
+    padding-bottom: 1.4em;
+    clear: both;
+}
+ul.slide-actions {
+    display: block;
+    padding-left: 0;
+    float: right;
+}
+ul.slide-actions li {
+    display: inline;
+}
+</style>
+
+{% assign max_slides = include.limit | default: 10 | to_integer %}
+{% assign slide_offset = include.offset | default: 0 | to_integer %}
+
+<!-- {% comment %}{% if site.slides.size > 0 %}{% endif %}{% endcomment %} -->
+<!-- deleteme -->
+{% assign slidescount = 0 %}
+{% for slide in site.pages %}
+    {% assign slide_path = slide.path | split: "/" | first %}
+    {% if slide.layout == "slide" and slide_path == "slides" %}
+        {% assign slidescount = slidescount | plus: 1 %}
+    {% endif %}
+{% endfor %}
+{% if slidescount > 0 %}
+<!-- endof: deleteme -->
+<ul class="slide-list">
+    <!-- {% comment %}{% for slide in site.slides limit: max_slides offset: slide_offset %}{% endfor %}{% endcomment %} -->
+    <!-- deleteme -->
+    {% assign slide_count = 0 %}
+    {% for slide in site.pages %}
+        {% assign output_count = slide_count | minus: slide_offset %}
+        {% if output_count >= max_slides %}{% break %}{% endif %}
+        {% assign slide_path = slide.path | split: "/" | first %}
+        {% if slide.layout == "slide" and slide_path == "slides" %}
+            {% assign slide_count = slide_count | plus: 1 %}
+            {% if slide_count <= slide_offset %}{% continue %}{% endif %}
+            <li>
+                <h2><a class="slide-link" href="{{ slide.url | prepend: site.baseurl }}">{{ slide.title}}</a></h2>
+                <p class="slide-description">{{ slide.description }}</p>
+                {% if include.actions %}
+                <ul class="slide-actions">
+                    <li><a href="{{ slide.url | prepend: site.base_url }}">open</a></li>
+                    <li><a href="{{ slide.url | prepend: site.base_url | append: '?print-pdf' }}">print</a></li>
+                </ul>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+    <!-- endof: deleteme -->
+</ul>
+{% else %}
+{{ include.no_slides | default: "There are currently no slides available." }}
+{% endif %}

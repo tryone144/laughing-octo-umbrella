@@ -2,59 +2,34 @@
 layout: default  
 ---
 
-RevealTest – host your [reveal.js](https://revealjs.com) slides with [GitHub Pages](https://pages.github.com/) and [jekyll](https://jekyllrb.com).
+__Revealing Octocats__ allows you to host your [reveal.js](https://revealjs.com) slides with [jekyll](https://jekyllrb.com) on [GitHub Pages](https://pages.github.com/).
 
-# HTML Template Demo
+# Usage
 
-[Demo](slides/demo.html) using default html syntax.
+See the [README]({% link readme.html %}) for more details.
 
-# Markdown-only Demo
+## Demonstration
 
-Small [demo](slides/demo2.html) using only inline-markdown.
-
-<!-- Does not work as long as https://github.com/jekyll/jekyll/issues/6209 and https://github.com/jekyll/jekyll/issues/6211 are not fixed -->
-{% comment %}{% if site.slides.size > 0 %}{% endif %}{% endcomment %}
-<!-- deleteme -->
-{% assign slidescount = 0 %}
-{% for slide in site.pages %}
-    {% assign slide_path = slide.path | split:"/" | first %}
-    {% if slide.layout == "slide" and slide_path == "slides" %}
-        {% assign slidescount = slidescount | plus:1 %}
-    {% endif %}
-{% endfor %}
-{% if slidescount > 0 %}
-<!-- endof: deleteme -->
-# Most Recent Slides
-
-<ul class="post-list">
-<!-- Does not work as long as https://github.com/jekyll/jekyll/issues/6209 and https://github.com/jekyll/jekyll/issues/6211 are not fixed -->
-{% comment %}
-    {% for slide in site.slides limit:5 %}
-    {% endfor %}
-{% endcomment %}
-    <!-- deleteme -->
-    {% assign output_count = 0 %}
-    {% for slide in site.pages %}
-    {% if output_count >= 5 %}
-        {% break %}
-    {% endif %}
-    {% assign slide_path = slide.path | split:"/" | first %}
-    {% if slide.layout == "slide" and slide_path == "slides" %}
-    {% assign output_count = output_count | plus:1 %}
-    <!-- endof: deleteme -->
-        <li>
-            <h2><a class="post-link" href="{{ slide.url | prepend: site.baseurl }}">{{ slide.title}}</a></h2>
-            <p class="post-description">{{ slide.description }}</p>
-        </li>
-    {% endif %} <!-- deleteme -->
-    {% endfor %}
-</ul>
-
+<!--
 {% comment %}
 {% assign collection = site.collections | where: "label", "slides" | first %}
-{% assign rel_path = collection.relative_directory | remove_first:"_" %}
+{% assign slidespath = collection.relative_directory | remove_first: "_" %}
 {% endcomment %}
-{% assign rel_path = "slides" %} <!-- deleteme -->
-<a href="{{ rel_path }}/">view more</a>
-{% endif %}
+-->
+<!-- deleteme -->
+{% capture slidespath %}{% link slides.md %}{% endcapture %}
+{% assign slidespath = slidespath | split: "/" %}
+{% assign slidespath = slidespath[1] %}
+<!-- endof: deleteme -->
+
+[Demo]({% link slides/demo.html %}) using default html syntax.
+
+Small [demo]({% link slides/demo2.md %}) using only inline-markdown.
+
+
+# Most Recent Slides
+
+{% include slide-list.html limit=2 %}
+
+<a href="{{ slidespath | prepend: site.baseurl }}/">view more</a>
 
