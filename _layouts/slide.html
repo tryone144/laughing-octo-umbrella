@@ -3,13 +3,11 @@
     <head>
         <meta charset="utf-8">
 
-        <title>
-            {% if page.title %}
-                {{ page.title }} | {{ site.title }}
-            {% else %}
-                {{ site.title }}
-            {% endif %}
-        </title>
+        <title>{% if page.title %}
+            {{ page.title }} | {{ site.title }}
+        {% else %}
+            {{ site.title }}
+        {% endif %}</title>
 
         <meta name="author" content="{{ site.author }}">
 
@@ -20,51 +18,48 @@
         <meta name="description" content="{{ site.description }}">
         {% endif %}
 
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+        {% include mobile-viewport.html %}
 
         <link rel="stylesheet" href="{{ "/reveal.js/css/reveal.css" | prepend: site.baseurl }}"/>
-        {% if page.theme %}
-        <link rel="stylesheet" href="{{ "/reveal.js/css/theme/" | prepend: site.baseurl | append: page.theme | append: '.css' }}" id="theme"/>
+
+        {% if page.theme contains '.css' %}
+            {% assign mytheme = page.theme %}
+        {% elsif page.theme %}
+            {% assign mytheme = "/reveal.js/css/theme/" | append: page.theme | append: '.css' %}
+        {% endif %}
+
+        {% for sfile in site.static_files %}
+            {% if sfile.path == mytheme %}
+                {% assign theme_found = true %}
+            {% endif %}
+        {% endfor %}
+
+        {% if theme_found %}
+        <link rel="stylesheet" href="{{ mytheme | prepend: site.baseurl }}" id="theme"/>
         {% else %}
         <link rel="stylesheet" href="{{ "/reveal.js/css/theme/black.css" | prepend: site.baseurl }}" id="theme"/>
         {% endif %}
 
         <!-- Code syntax highlighting -->
-        <link rel="stylesheet" href="{{ "/reveal.js/lib/css/zenburn.css" | prepend: site.baseurl }}"/>
+        {% if page.highlight contains '.css' %}
+            {% assign myhighlight = page.highlight %}
+        {% elsif page.highlight %}
+            {% assign myhighlight = "/reveal.js/lib/css/" | append: page.highlight | append: '.css' %}
+        {% endif %}
 
-        <!-- Custom style additions -->
-        <style type="text/css">
-            .print-pdf .tl-button-spoiler {
-                display: none;
-            }
-            .tl-button-spoiler {
-                font-size: 1.5em;
-                font-family: "Source Sans Pro", Helvetica, sans-serif;
-                display: block;
-                position: fixed;
-                z-index: 10;
-                top: 5px;
-                left: 5px;
-            }
-            .tl-button-spoiler a {
-                color: #4CAF50;
-                text-shadow: 0 0 1em #4CAF50;
-                text-decoration: none;
-                padding: 5px;
-                display: inline-block;
-                visibility: hidden;
-                opacity: 0;
-                transition: opacity 2s ease, visibility 0s linear 2s;
-            }
-            .tl-button-spoiler:hover a {
-                transition: opacity 2s ease, visibility 0s linear;
-                visibility: visible;
-                opacity: 1;
-            }
-        </style>
+        {% for sfile in site.static_files %}
+            {% if sfile.path == myhighlight %}
+                {% assign highlight_found = true %}
+            {% endif %}
+        {% endfor %}
+
+        {% if highlight_found %}
+        <link rel="stylesheet" href="{{ myhighlight | prepend: site.baseurl }}"/>
+        {% else %}
+        <link rel="stylesheet" href="{{ "/reveal.js/lib/css/zenburn.css" | prepend: site.baseurl }}"/>
+        {% endif %}
+
+        {% include custom-slide-buttons-style.html %}
 
         <!-- Printing and PDF exports -->
         <script>
@@ -87,18 +82,33 @@
         <!-- noscript message -->
         {% include noscript-msg.html name="reveal.js" %}
 
-        <span class="tl-button-spoiler">
-            <a id="octo-button-home" href="{{ site.url }}">🏠 Go Back</a>
-            <a id="octo-button-print" href="javascript:window.open('{{ page.url | prepend: site.baseurl | append: '?print-pdf' }}')">🖶 Print</a>
-        </span>
-        <script>
-            var btn = document.getElementById('octo-button-home');
-            if (document.referrer !== "" && document.referrer !== (window.location.origin + window.location.pathname)) {
-                btn.setAttribute('href', document.referrer);
-            }
-        </script>
+        {% include custom-slide-navigation.html %}
 
         <div class="reveal">
+            {% if page.section_header %}
+            <!-- Global header -->
+            <header id="slide-header">
+                <div class="header-left">
+                    <div>
+                        <h1 class="heading"></h1>
+                        <h2 class="subheading"></h2>
+                    </div>
+                </div>
+                <div class="header-logo"></div>
+            </header>
+            {% endif %}
+            {% if page.section_footer %}
+            <!-- Global footer -->
+            <footer id="slide-footer">
+                <div class="footer-left">
+                    <div>
+                        <p class="title">{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</p>
+                        <p class="extra">{% if page.subtitle %}{{ page.subtitle }}{% endif %}</p>
+                    </div>
+                </div>
+            </footer>
+            {% endif %}
+            <!-- Slides -->
             <div class="slides">
                 {% assign file_ext = page.path | split: "." | last %}
                 {% if file_ext == "md" %}
@@ -123,19 +133,27 @@
                 controls: true,
                 progress: true,
                 history: true,
-                center: true,
+                center: false,
                 zoomKey: 'shift',
                 {% if page.transition %}
                     transition: '{{ page.transition }}',
                 {% else %}
                     transition: 'slide', // none/fade/slide/convex/concave/zoom
                 {% endif %}
+                slideNumber: true,
+                showSlideNumber: 'all',
+
+                markdown: {
+                    baseUrl: "{{ site.baseurl }}",
+                    gfm: true,
+                    smartypants: true,
+                },
 
                 dependencies: [
                     { src: '{{ "/reveal.js/lib/js/classList.js" | prepend: site.baseurl }}', condition: function() { return !document.body.classList; } },
                     { src: '{{ "/reveal.js/plugin/markdown/marked.js" | prepend: site.baseurl }}', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                     { src: '{{ "/reveal.js/plugin/markdown/markdown.js" | prepend: site.baseurl }}', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                    { src: '{{ "/reveal.js/plugin/highlight/highlight.js" | prepend: site.baseurl }}', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: '{{ "/reveal.js/plugin/highlight/highlight.js" | prepend: site.baseurl }}', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
                     { src: '{{ "/reveal.js/plugin/zoom-js/zoom.js" | prepend: site.baseurl }}', async: true },
                     { src: '{{ "/reveal.js/plugin/notes/notes.js" | prepend: site.baseurl }}', async: true },
                 ],
@@ -155,5 +173,10 @@
                 }, 500);
             }
         </script>
+        
+        {% include fade-subsections.html %}
+
+        {% if page.section_header %}{% include slide-header.html header_id="#slide-header" %}{% endif %}
+        {% if page.section_footer %}{% include slide-footer.html footer_id="#slide-footer" %}{% endif %}
     </body>
 </html>

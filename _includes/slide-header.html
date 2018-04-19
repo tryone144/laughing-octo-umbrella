@@ -1,0 +1,75 @@
+<!-- Global Header actions -->
+<script type="text/javascript">
+    var myHead = document.querySelector('{{ include.header_id }}');
+    var myHeader = myHead.querySelector('.header-left div');
+    var myHeading = myHeader.querySelector('h1');
+
+    if (window.location.search.match( /print-pdf/gi )) {
+        // Copy the header into each slide-background when printing
+        Reveal.addEventListener('ready', function(evt) {
+            var slides = Reveal.getSlides();
+            var lastHeading = undefined;
+
+            Array.from(document.querySelectorAll('.reveal .slide-background:not(.stack)')).forEach(function(back, index) {
+                var head = myHead.cloneNode(true);
+                head.id = "{{ include.header_id }}-" + index;
+
+                var slide = slides[index];
+                var heading = slide.querySelector('h1') || lastHeading;
+                head.querySelector('.header-left h1').innerHTML = heading.innerHTML;
+
+                heading.style.display = 'none';
+                lastHeading = heading;
+
+                back.appendChild(head);
+            });
+
+            myHead.style.display = 'none';
+        }, false);
+    } else {
+        Reveal.addEventListener('ready', function(evt) {
+            var slide = Reveal.getSlides()[0];
+            var heading = slide.querySelector('h1');
+            heading.style.display = 'none';
+            myHeading.innerHTML = heading.innerHTML;
+        }, false);
+        Reveal.addEventListener('slidechanged', function(evt) {
+            var slide = evt.currentSlide;
+            var oldHeading = myHeading.innerHTML;
+
+            // Get header from custom attribute
+            //var heading = slide.dataset.h1;
+            //if (heading === undefined) {
+            //    var past = document.querySelectorAll('.reveal > .slides section.past:not(.stack)[data-h1], .reveal > .slides section.stack.past section[data-h1]');
+            //    heading = past[past.length - 1].dataset.h1;
+            //}
+
+            // Get header from first <h1> element
+            var heading = slide.querySelector('h1');
+            if (heading === null) {
+                var past = document.querySelectorAll('.reveal > .slides section.past:not(.stack) h1, .reveal > .slides section.stack.past section h1');
+                heading = past[past.length - 1];
+            }
+            heading.style.display = 'none';
+            //heading.remove();
+            heading = heading.innerHTML;
+
+            if (heading === oldHeading) {
+                return;
+            }
+
+            // Set header
+            myHeader.style.opacity = 0;
+            setTimeout(function () {
+                myHeading.innerHTML = (heading == null || heading == "") ? "NOT SET!" : heading;
+                myHeader.style.opacity = 1;
+            }, 150);
+        }, false);
+        Reveal.addEventListener('overviewshown', function(evt) {
+            myHead.style.display = 'none';
+        });
+        Reveal.addEventListener('overviewhidden', function(evt) {
+            myHead.style.display = '';
+        });
+    }
+</script>

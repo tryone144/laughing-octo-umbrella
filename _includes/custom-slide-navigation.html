@@ -1,0 +1,11 @@
+<!-- Custom Slide Naviation buttons -->
+<span class="tl-button-spoiler">
+    <a id="octo-button-home" href="{{ site.url }}">🏠 Go Back</a>
+    <a id="octo-button-print" href="javascript:window.open('{{ page.url | prepend: site.baseurl | append: '?print-pdf' }}')">🖶 Export</a>
+</span>
+<script>
+    var btn = document.getElementById('octo-button-home');
+    if (document.referrer !== "" && document.referrer !== (window.location.origin + window.location.pathname)) {
+        btn.setAttribute('href', document.referrer);
+    }
+</script>

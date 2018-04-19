@@ -1,0 +1,11 @@
+<!-- Set slide transition to fade for subsections (vertical slides) -->
+<script>
+    Reveal.addEventListener('ready', function(evt) {
+        Array.from(document.querySelectorAll(".reveal .slides section > section")).forEach(function(slide) {
+            if (slide.dataset.transition === undefined) {
+                slide.dataset.transition = "fade";
+            }
+        });
+    });
+</script>
+

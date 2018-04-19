@@ -1,0 +1,30 @@
+<!-- Custom Slide Buttons style additions -->
+<style type="text/css">
+    .print-pdf .tl-button-spoiler {
+        display: none;
+    }
+    .tl-button-spoiler {
+        font-size: 1.5em;
+        font-family: "Source Sans Pro", Helvetica, sans-serif;
+        display: block;
+        position: fixed;
+        z-index: 10;
+        top: 5px;
+        left: 5px;
+    }
+    .tl-button-spoiler a {
+        color: #4CAF50;
+        text-shadow: 0 0 1em #4CAF50;
+        text-decoration: none;
+        padding: 5px;
+        display: inline-block;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 2s ease, visibility 0s linear 2s;
+    }
+    .tl-button-spoiler:hover a {
+        transition: opacity 2s ease, visibility 0s linear;
+        visibility: visible;
+        opacity: 1;
+    }
+</style>

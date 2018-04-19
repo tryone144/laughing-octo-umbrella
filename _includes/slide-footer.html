@@ -1,0 +1,26 @@
+<!-- Global Footer actions -->
+<script type="text/javascript">
+    var myFoot = document.querySelector('{{ include.footer_id }}');
+
+    if (window.location.search.match( /print-pdf/gi )) {
+        // Copy the footer into each slide-background when printing
+        Reveal.addEventListener('ready', function(evt) {
+            var slides = Reveal.getSlides();
+            var lastHeading = undefined;
+
+            Array.from(document.querySelectorAll('.reveal .slide-background:not(.stack)')).forEach(function(back, index) {
+                var foot = myFoot.cloneNode(true);
+                foot.id = "{{ include.footer_id }}-" + index;
+                back.appendChild(foot);
+            });
+            myFoot.style.display = 'none';
+        }, false);
+    } else {
+        Reveal.addEventListener('overviewshown', function(evt) {
+            myFoot.style.display = 'none';
+        });
+        Reveal.addEventListener('overviewhidden', function(evt) {
+            myFoot.style.display = '';
+        });
+    }
+</script>
