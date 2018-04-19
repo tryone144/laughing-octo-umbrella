@@ -4,3 +4,6 @@
 # jekyll generated
 _site/
 .jekyll-metadata
+
+# bundle gems
+.bundle/ruby/
