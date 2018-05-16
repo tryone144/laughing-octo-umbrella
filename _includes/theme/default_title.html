@@ -1,0 +1,6 @@
+<!-- Title slide -->
+<section class="title">
+    <h1>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</h1>
+    <p class="author">{% if page.author %}{{ page.author }}{% endif %}</p>
+    <p class="date">{% if page.date %}{{ page.date | date: "%d.%m.%y" }}{% endif %}</p>
+</section>

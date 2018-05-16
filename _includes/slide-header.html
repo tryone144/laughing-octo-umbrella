@@ -9,17 +9,26 @@
         Reveal.addEventListener('ready', function(evt) {
             var slides = Reveal.getSlides();
             var lastHeading = undefined;
+            myHead.style.opacity = 1;
 
             Array.from(document.querySelectorAll('.reveal .slide-background:not(.stack)')).forEach(function(back, index) {
+                var slide = slides[index];
+                var heading = slide.querySelector('h1') || lastHeading;
+
+                if (slide.classList.contains('title')) {
+                    return;
+                }
+
                 var head = myHead.cloneNode(true);
                 head.id = "{{ include.header_id }}-" + index;
 
-                var slide = slides[index];
-                var heading = slide.querySelector('h1') || lastHeading;
-                head.querySelector('.header-left h1').innerHTML = heading.innerHTML;
-
-                heading.style.display = 'none';
-                lastHeading = heading;
+                if (heading != undefined) {
+                    head.querySelector('.header-left h1').innerHTML = heading.innerHTML;
+                    heading.style.display = 'none';
+                    lastHeading = heading;
+                } else {
+                    head.querySelector('.header-left h1').innerHTML = "{{ page.title }}";
+                }
 
                 back.appendChild(head);
             });
@@ -28,14 +37,46 @@
         }, false);
     } else {
         Reveal.addEventListener('ready', function(evt) {
-            var slide = Reveal.getSlides()[0];
+            var slide = Reveal.getCurrentSlide();
+
+            if (slide.classList.contains('title')) {
+                // Hide header on title and end slides
+                myHead.style.opacity = 0;
+                return;
+            } else if (myHead.style.opacity !== 1) {
+                myHead.style.opacity = 1;
+            }
+
             var heading = slide.querySelector('h1');
-            heading.style.display = 'none';
-            myHeading.innerHTML = heading.innerHTML;
+            if (heading !== null) {
+                heading.style.display = 'none';
+                myHeading.innerHTML = heading.innerHTML;
+            } else {
+                myHeading.innerHTML = "{{ page.title }}";
+            }
+
+            Reveal.getSlides().forEach(function(slide) {
+                if (slide.classList.contains('title')) {
+                    return;
+                }
+
+                var heading = slide.querySelector('h1');
+                if (heading !== null) {
+                    heading.style.display = 'none';
+                }
+            });
         }, false);
         Reveal.addEventListener('slidechanged', function(evt) {
             var slide = evt.currentSlide;
             var oldHeading = myHeading.innerHTML;
+
+            if (slide.classList.contains('title')) {
+                // Hide header on title and end slides
+                myHead.style.opacity = 0;
+                return;
+            } else if (myHead.style.opacity !== 1) {
+                myHead.style.opacity = 1;
+            }
 
             // Get header from custom attribute
             //var heading = slide.dataset.h1;
@@ -47,12 +88,15 @@
             // Get header from first <h1> element
             var heading = slide.querySelector('h1');
             if (heading === null) {
-                var past = document.querySelectorAll('.reveal > .slides section.past:not(.stack) h1, .reveal > .slides section.stack.past section h1');
+                var past = document.querySelectorAll('.reveal > .slides section.past:not(.stack):not(.title) h1, .reveal > .slides section.stack.past section:not(.title) h1');
                 heading = past[past.length - 1];
             }
-            heading.style.display = 'none';
-            //heading.remove();
-            heading = heading.innerHTML;
+            if (heading != undefined) {
+                heading.style.display = 'none';
+                heading = heading.innerHTML;
+            } else {
+                heading = "{{ page.title }}";
+            }
 
             if (heading === oldHeading) {
                 return;

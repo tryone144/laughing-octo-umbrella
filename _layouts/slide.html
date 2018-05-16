@@ -22,7 +22,9 @@
 
         <link rel="stylesheet" href="{{ "/reveal.js/css/reveal.css" | prepend: site.baseurl }}"/>
 
+        <!-- Reveal theme -->
         {% if page.theme contains '.css' %}
+            {% assign custom_theme = true %}
             {% assign mytheme = page.theme %}
         {% elsif page.theme %}
             {% assign mytheme = "/reveal.js/css/theme/" | append: page.theme | append: '.css' %}
@@ -68,6 +70,14 @@
             link.type = 'text/css';
             link.href = window.location.search.match( /print-pdf/gi ) ? '{{ "/reveal.js/css/print/pdf.css" | prepend: site.baseurl }}' : '{{ "/reveal.js/css/print/paper.css" | prepend: site.baseurl }}';
             document.getElementsByTagName( 'head' )[0].appendChild( link );
+
+            if (window.location.search.match( /print-pdf/gi )) {
+                var css = document.createElement( 'style' );
+                css.type = "text/css";
+                css.innerText = ".reveal section.title { height: 10px !important; }";
+                document.getElementsByTagName( 'head' )[0].appendChild( css );
+
+            }
         </script>
 
         <link rel="apple-touch-icon" href="{{ "/apple-touch-icon.png" | prepend: site.baseurl }}" />
@@ -85,31 +95,35 @@
         {% include custom-slide-navigation.html %}
 
         <div class="reveal">
-            {% if page.section_header %}
-            <!-- Global header -->
-            <header id="slide-header">
-                <div class="header-left">
-                    <div>
-                        <h1 class="heading"></h1>
-                        <h2 class="subheading"></h2>
-                    </div>
-                </div>
-                <div class="header-logo"></div>
-            </header>
+            {% if page.section_header == true %}
+                {% if custom_theme %}{% include {{ mytheme | remove: '.css' | append: '_header.html' }} %}
+                {% else %}{% include /theme/default_header.html %}
+                {% endif %}
+            {% elsif page.section_header == "default" %}
+                {% include /theme/default_header.html %}
+            {% elsif page.section_header %}
+                {% include {{ page.section_header }} %}
             {% endif %}
-            {% if page.section_footer %}
-            <!-- Global footer -->
-            <footer id="slide-footer">
-                <div class="footer-left">
-                    <div>
-                        <p class="title">{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</p>
-                        <p class="extra">{% if page.subtitle %}{{ page.subtitle }}{% endif %}</p>
-                    </div>
-                </div>
-            </footer>
+            {% if page.section_footer == true %}
+                {% if custom_theme %}{% include {{ mytheme | remove: '.css' | append: '_footer.html' }} %}
+                {% else %}{% include /theme/default_footer.html %}
+                {% endif %}
+            {% elsif page.section_footer == "default" %}
+                {% include /theme/default_footer.html %}
+            {% elsif page.section_footer %}
+                {% include {{ page.section_footer }} %}
             {% endif %}
             <!-- Slides -->
             <div class="slides">
+                {% if page.title_slide == true %}
+                    {% if custom_theme %}{% include {{ mytheme | remove: '.css' | append: '_title.html' }} %}
+                    {% else %}{% include /theme/default_title.html %}
+                    {% endif %}
+                {% elsif page.title_slide == "default" %}
+                    {% include /theme/default_title.html %}
+                {% elsif page.title_slide %}
+                    {% include {{ page.title_slide }} %}
+                {% endif %}
                 {% assign file_ext = page.path | split: "." | last %}
                 {% if file_ext == "md" %}
                 <section data-markdown
@@ -122,6 +136,15 @@
                 {% else %}
                 {{ content }}
                 {% endif %}
+                {% if page.end_slide == true %}
+                    {% if custom_theme %}{% include {{ mytheme | remove: '.css' | append: '_end.html' }} %}
+                    {% else %}{% include /theme/default_end.html %}
+                    {% endif %}
+                {% elsif page.end_slide == "default" %}
+                    {% include /theme/default_end.html %}
+                {% elsif page.end_slide %}
+                    {% include {{ page.end_slide }} %}
+                {% endif %}
             </div>
         </div>
 
@@ -133,16 +156,30 @@
                 controls: true,
                 progress: true,
                 history: true,
-                center: false,
+                {% if page.center == false %}
+                    center: false,
+                {% else %}
+                    center: true,
+                {% endif %}
                 zoomKey: 'shift',
-                width: 1280,
-                height: 720,
+                maxScale: 10,
+                {% if page.widescreen %}
+                    width: 1280,
+                    height: 720,
+                {% else %}
+                    width: 1024,
+                    height: 768,
+                {% endif %}
                 {% if page.transition %}
                     transition: '{{ page.transition }}',
                 {% else %}
                     transition: 'slide', // none/fade/slide/convex/concave/zoom
                 {% endif %}
-                slideNumber: true,
+                {% if page.slide_number == false %}
+                    slideNumber: false,
+                {% else %}
+                    slideNumber: true,
+                {% endif %}
                 showSlideNumber: 'all',
 
                 markdown: {
@@ -166,17 +203,17 @@
             if (window.location.search.match( /print-pdf/gi )) {
                 setTimeout(function() {
                     window.print();
-                    setTimeout(function() {
-                        if (window.history.length > 2) {
-                            window.history.back();
-                        } else {
-                            window.close();
-                        }
-                    }, 100);
+                    //setTimeout(function() {
+                    //    if (window.history.length > 2) {
+                    //        window.history.back();
+                    //    } else {
+                    //        window.close();
+                    //    }
+                    //}, 500);
                 }, 500);
             }
         </script>
-        
+
         {% include fade-subsections.html %}
 
         {% if page.section_header %}{% include slide-header.html header_id="#slide-header" %}{% endif %}

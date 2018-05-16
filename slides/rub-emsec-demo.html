@@ -1,0 +1,171 @@
+---
+layout: slide
+title: "RUB EMSEC Template"
+subtitle: "EMSEC | Thesis Colloquium"
+description: A presentation for reveal.js using the RUB template (EMSEC Title slides)
+author: "Bernd Busse"
+date: 2018-05-16
+theme: /theme/rub.css
+highlight: /theme/hl/github.css
+section_header: true
+section_footer: true
+title_slide: /theme/emsec_title.html
+end_slide: /theme/emsec_end.html
+transition: convex
+widescreen: false
+center: false
+---
+
+<section class="center">
+    <h1>The RUB theme for reveal.js</h1>
+    <h2>This is an html sample</h2>
+</section>
+
+<section>
+    <section>
+        <h1>Sliding</h1>
+        <h2>Even vertical stacking should work</h2>
+        <p>as you will see below</p>
+    </section>
+    <section>
+        <h1>Largest</h1>
+        <h2>Larger</h2>
+        <h3>Large</h3>
+        <h4>Small</h4>
+        <h5>Smaller</h5>
+        <p>Demo</p>
+        <aside class="notes">These are speaker notes!</aside>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h1>Lists</h1>
+        <h2>Some stuff with lists</h2>
+        <p>Was ist eigentlich mit \(\phi\left(5\right) = 4\)?</p>
+    </section>
+    <section>
+        <h3>Only unordered</h3>
+        <ul>
+            <li>Level one</li>
+            <ul>
+                <li>Level two</li>
+                <ul>
+                    <li>And level three</li>
+                    <li>with stuff</li>
+                </ul>
+                <li>More</li>
+            </ul>
+            <li>And even more</li>
+        </ul>
+    </section>
+    <section>
+        <h3>Unordered in ordered</h3>
+        <ol>
+            <li>Level one</li>
+            <ul>
+                <li>Level two</li>
+                <ol>
+                    <li>Level three</li>
+                </ol>
+                <li>More</li>
+            </ul>
+            <li>And even more</li>
+        </ol>
+    </section>
+    <section>
+        <h3>Ordered in unordered</h3>
+        <ul>
+            <li>Level one</li>
+            <ol>
+                <li>Level two</li>
+                <ul>
+                    <li>Level three</li>
+                </ul>
+                <li>More</li>
+            </ol>
+            <li>And even more</li>
+        </ul>
+    </section>
+    <section>
+        <h3>Only ordered</h3>
+        <ol>
+            <li>Level one</li>
+            <ol>
+                <li>Level two</li>
+                <ol>
+                    <li>And level three</li>
+                    <li>with stuff</li>
+                </ol>
+                <li>More</li>
+            </ol>
+            <li>And even more</li>
+        </ol>
+    </section>
+</section>
+
+<section data-markdown>
+    <textarea data-template>
+        # And this is inline markup
+
+        ## Resulting in a list
+        - at least I hope so
+        - this should be second
+    </textarea>
+</section>
+<section data-markdown>
+    <textarea data-template>
+        ## And more markup
+
+        1. In the Form of
+        2. Numbered Lists
+    </textarea>
+</section>
+
+<section>
+    <section>
+        <h1>Code Highlights</h1>
+        <h2>We can even do code highlighting</h2>
+    </section>
+    <section>
+        <h3>Some python code</h3>
+        <pre><code data-trim>
+def main():
+    print("Hello World!")
+
+# Start directly
+if __name__ == '__main__':
+    main()
+        </code></pre>
+        <p>Very important!!!</p>
+    </section>
+    <section>
+        <h3>Just a cup of Java</h3>
+        <pre><code data-trim>
+public class HelloWorld {
+    /* Say hello to all our friends
+     * out there in the wild! :)
+     */
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
+        </code></pre>
+        <ul>
+            <li>This is cool</li>
+            <li>And can be themed</li>
+        </ul>
+    </section>
+    <section>
+        <h3>I can't C#</h3>
+        <pre><code data-trim>
+#include &lt;stdio.h&gt;
+
+// The entry point
+int main() {
+    printf("Hello World!\n");
+    return 0;
+}
+        </code></pre>
+    </section>
+</section>

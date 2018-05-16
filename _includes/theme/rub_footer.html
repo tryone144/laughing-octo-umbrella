@@ -1,0 +1,10 @@
+<!-- Global footer -->
+<footer id="slide-footer" style="opacity: 0;">
+    <div class="footer-left">
+        <div>
+            <p class="title">{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</p>
+            <p class="extra">{% if page.subtitle %}{{ page.subtitle }}{% endif %}</p>
+            <p class="date">{% if page.date %}{{ page.date | date: "%d.%m.%y" }}{% endif %}</p>
+        </div>
+    </div>
+</footer>

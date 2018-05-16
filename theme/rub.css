@@ -76,12 +76,11 @@ body {
   line-height: 1.3;
   font-weight: inherit; }
 
-  @media print {
-      .reveal .slides .pdf-page > section,
-      .reveal .slides .pdf-page > section > section {
-          padding-top: 12% !important;
-      }
-  }
+@media print {
+  .reveal .slides .pdf-page > section:not(.center),
+  .reveal .slides .pdf-page > section > section:not(.center) {
+    padding-top: 12% !important; }
+}
 
 /*********************************************
  * HEADERS
@@ -105,13 +104,13 @@ body {
 
 .reveal h1 {
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
-  font-size: 3.77em; }
+  font-size: 3.5em; }
 
 .reveal h2 {
-  font-size: 2.11em; }
+  font-size: 2em; }
 
 .reveal h3 {
-  font-size: 1.55em; }
+  font-size: 1.4em; }
 
 .reveal h4 {
   font-size: 1em; }
@@ -127,7 +126,10 @@ body {
   height: 12%;
   color: #093158;
   z-index: 5;
-  font-family: "Open Sans", sans-serif; }
+  font-family: "Open Sans", sans-serif;
+  -webkit-transition: opacity .15s ease-in-out, font-size .15s ease-in-out;
+  -moz-transition: opacity .15s ease-in-out, font-size .15s ease-in-out;
+  transition: opacity .15s ease-in-out, font-size .15s ease-in-out; }
 
 @media print {
   .reveal .slide-background {
@@ -162,12 +164,36 @@ body {
 
 .reveal header .heading {
   margin: 0pt;
-  font-size: 1.18em; }
+  -webkit-transition: font-size .15s ease-in-out;
+  -moz-transition: font-size .15s ease-in-out;
+  transition: font-size .15s ease-in-out;
+  font-size: 1.3em; }
+@media screen and (max-height: 700px), (max-width: 700px) {
+  .reveal header .heading {
+    font-size: 1em; }
+  .reveal header .subheading {
+    font-size: 0.5em !important; }
+}
+@media screen and (max-height: 500px), (max-width: 550px) {
+  .reveal header .heading {
+    font-size: .8em; }
+  .reveal header .subheading {
+    font-size: 0.4em !important; }
+}
+@media screen and (max-height: 400px), (max-width: 450px) {
+  .reveal header .heading {
+    font-size: .5em; }
+  .reveal header .subheading {
+    font-size: 0.3em !important; }
+}
 
 .reveal header .subheading {
-  margin: 0pt;
+  margin: 0.5em 0em;
+  -webkit-transition: font-size .15s ease-in-out;
+  -moz-transition: font-size .15s ease-in-out;
+  transition: font-size .15s ease-in-out;
   font-style: italic;
-  font-size: 0.80em; }
+  font-size: 0.8em; }
 
 .reveal header .subheading:empty {
   display: none;
@@ -184,7 +210,7 @@ body {
   float: left; }
 
 .reveal header > .header-left {
-  width: 92%;
+  width: 93%;
   background: #e7e7e7;
   text-align: left; }
 
@@ -240,12 +266,114 @@ body {
 .reveal header > .header-logo {
   height: 85%;
   position: relative;
-  width: 92%;
-  transform: rotate(90deg) translate(0px, -40%) rotate(-90deg);
-  background-image: url(rub_logo.svg);
+  width: 93%;
+  transform: rotate(90deg) translate(0px, -38%) rotate(-90deg);
+  background-image: url(/theme/rub/rub_logo.svg);
   background-repeat: no-repeat;
   background-position: top right;
   background-size: contain; }
+
+/*********************************************
+ * TITLE AND END SLIDE
+ *********************************************/
+.reveal section.title {
+  height: 50%;
+  width: 90%;
+  box-sizing: border-box;
+  padding-top: 1.5em;
+  padding-left: 1em;
+  transform: translate(0, 100%);
+  text-align: left; }
+.reveal .slides section.title[data-transition=fade] {
+  transform: translate(0, 100%); }
+
+.reveal section.title .heading {
+  margin: 0px;
+  font-size: 1em; }
+.reveal section.title .author {
+  margin: 2em 0px 0px 0px;
+  font-weight: normal;
+  font-size: 0.65em; }
+
+.reveal section.title .title-info {
+  color: #90ae10;
+  font-size: 0.5em;
+  margin: 1.2em 0px; }
+.reveal section.title .title-info tr > :first-child {
+  padding-right: 4em; }
+.reveal section.title .title-info tr:last-child th,
+.reveal section.title .title-info tr:last-child td {
+  padding: 0px; }
+.reveal section.title .title-info th,
+.reveal section.title .title-info td {
+  padding: 0px 0px 1.1em 0px;
+  border: 0px;
+  font-weight: bold; }
+
+.reveal section.title .title-footer {
+  width: 100%;
+  height: 1.2em;
+  box-sizing: border-box;
+  margin-top: 0.8em; }
+
+.reveal section.title .footer-left {
+  height: 100%;
+  float: left; }
+.reveal section.title .footer-right {
+  height: 100%;
+  vertical-align: top;
+  color: #90ae10;
+  float: right; }
+
+.reveal section.title .title-footer p {
+  margin: 0px;
+  display: inline-block; }
+
+.reveal section.title .info {
+  font-weight: bold;
+  font-size: 0.8em; }
+.reveal section.title .date {
+  vertical-align: baseline;
+  font-size: 0.7em; }
+
+.reveal section.title .emsec-logo {
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 0px;
+  margin-left: 1.5em;
+  background: none;
+  box-shadow: none;
+  transform: scale(1.2) rotate(90deg) translate(8%, 0) rotate(-90deg); }
+
+.reveal section.title .title-box {
+  width: 115%;
+  left: -0.5em;
+  position: relative;
+  border: 1px solid;
+  padding: 0.2em;
+  font-size: 1.8em;
+  text-transform: capitalize;
+  font-weight: bold;
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: 0.8em; }
+.reveal section.title .title-box p {
+  margin: 0px;
+  display: block; }
+
+@media print {
+  .reveal section.title {
+    height: auto !important; }
+  .print-pdf .reveal .slides .pdf-page > section.title {
+    height: 50% !important;
+    width: 90% !important;
+    padding-top: 1.5em !important;
+    padding-left: 1em !important;
+    transform: translate(0, 100%) !important; }
+  .reveal section.title .title-box {
+    margin-top: 0px;
+    width: 110%; }
+}
 
 /*********************************************
  * OTHER

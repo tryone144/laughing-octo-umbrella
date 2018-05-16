@@ -7,8 +7,9 @@
         Reveal.addEventListener('ready', function(evt) {
             var slides = Reveal.getSlides();
             var lastHeading = undefined;
+            myFoot.style.opacity = 1;
 
-            Array.from(document.querySelectorAll('.reveal .slide-background:not(.stack)')).forEach(function(back, index) {
+            Array.from(document.querySelectorAll('.reveal .slide-background:not(.stack):not(.title)')).forEach(function(back, index) {
                 var foot = myFoot.cloneNode(true);
                 foot.id = "{{ include.footer_id }}-" + index;
                 back.appendChild(foot);
@@ -16,6 +17,26 @@
             myFoot.style.display = 'none';
         }, false);
     } else {
+        Reveal.addEventListener('ready', function(evt) {
+            var slide = Reveal.getCurrentSlide();
+
+            if (slide.classList.contains('title')) {
+                // Hide footer on title and end slides
+                myFoot.style.opacity = 0;
+            } else {
+                myFoot.style.opacity = 1;
+            }
+        }, false);
+        Reveal.addEventListener('slidechanged', function(evt) {
+            var slide = evt.currentSlide;
+
+            if (slide.classList.contains('title')) {
+                // Hide header on title and end slides
+                myFoot.style.opacity = 0;
+            } else {
+                myFoot.style.opacity = 1;
+            }
+        }, false);
         Reveal.addEventListener('overviewshown', function(evt) {
             myFoot.style.display = 'none';
         });

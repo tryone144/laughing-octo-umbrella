@@ -1,0 +1,27 @@
+<!-- Title slide -->
+<section class="title" data-background-iframe="/theme/rub/emsec_banner.html" data-background-transition="fade" data-transition="fade">
+    <div class="title-header">
+        <h1 class="heading">{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</h1>
+        <h2 class="author">{% if page.author %}{{ page.author }}{% endif %}</h2>
+    </div>
+    <table class="title-info">
+        <tr>
+            <th>Supervisor:</th><td>Florian Bache</td>
+        </tr>
+        <tr>
+            <th>Start Date:</th><td>15.03.18</td>
+        </tr>
+        <tr>
+            <th>End Date:</th><td>14.06.18</td>
+        </tr>
+    </table>
+    <div class="title-footer">
+        <div class="footer-left">
+            <p class="info">EMSEC Thesis Colloquium</p>
+        </div>
+        <div class="footer-right">
+            <p class="date">{% if page.date %}{{ page.date | date: "%d.%m.%y" }}{% endif %}</p>
+            <img class="emsec-logo" src="/theme/rub/emsec_logo.png" />
+        </div>
+    </div>
+</section>
