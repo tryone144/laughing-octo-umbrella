@@ -1,5 +1,5 @@
 <!-- End slide -->
-<section class="title" data-background-iframe="/theme/rub/emsec_banner.html" data-background-transition="fade" data-transition="fade">
+<section class="title" data-background-iframe="{{ "/theme/rub/emsec_banner.html" | prepend: site.baseurl }}" data-background-transition="fade" data-transition="fade">
     <div class="title-box">
         <p>Thank you for your attention!</p>
         <p>Any questions?</p>
@@ -10,7 +10,7 @@
         </div>
         <div class="footer-right">
             <p class="date">{% if page.date %}{{ page.date | date: "%d.%m.%y" }}{% endif %}</p>
-            <img class="emsec-logo" src="/theme/rub/emsec_logo.png" />
+            <img class="emsec-logo" src="{{ "/theme/rub/emsec_logo.png" | prepend: site.baseurl }}" />
         </div>
     </div>
 </section>

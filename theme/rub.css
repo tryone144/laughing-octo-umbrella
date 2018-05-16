@@ -268,7 +268,7 @@ body {
   position: relative;
   width: 93%;
   transform: rotate(90deg) translate(0px, -38%) rotate(-90deg);
-  background-image: url(/theme/rub/rub_logo.svg);
+  background-image: url(rub/rub_logo.svg);
   background-repeat: no-repeat;
   background-position: top right;
   background-size: contain; }
