@@ -203,13 +203,13 @@
             if (window.location.search.match( /print-pdf/gi )) {
                 setTimeout(function() {
                     window.print();
-                    //setTimeout(function() {
-                    //    if (window.history.length > 2) {
-                    //        window.history.back();
-                    //    } else {
-                    //        window.close();
-                    //    }
-                    //}, 500);
+                    setTimeout(function() {
+                        if (window.history.length > 2) {
+                            window.history.back();
+                        } else {
+                            window.close();
+                        }
+                    }, 500);
                 }, 500);
             }
         </script>
