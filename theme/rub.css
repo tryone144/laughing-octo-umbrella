@@ -613,3 +613,17 @@ body {
   color: #003561;
   background: #e7e7e7; }
 
+/*********************************************
+ * OPTIONAL STYLES
+ *********************************************/
+.reveal .red {
+    color: #d50000;
+}
+
+.reveal .orange {
+    color: #ffab00;
+}
+
+.reveal .green {
+    color: #90ae10;
+}
