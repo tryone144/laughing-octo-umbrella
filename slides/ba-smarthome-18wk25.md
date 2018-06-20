@@ -62,13 +62,60 @@ Note:
 ### Protocol Messages
 <!-- .slide: class="center" -->
 
+1. *Capabilities Message* (smart home device)
+
+| Type | Length | Purpose |
+| --- | --- | --- |
+| <!-- .element: class="tt" --> sshsp:__V__ | 1B | Protocol Version (0x01 == v0.1) |
+| <!-- .element: class="tt" --> sshsp:__T__ | 1B | Message Type: __C__ (0x43) |
+| <!-- .element: class="tt" --> sshsp:__Uuid__ | 16B | Unique Device ID |
+| <!-- .element: class="tt" --> sshsp:__Cap__ | variable | Device Capabilities |
+| <!-- .element: class="tt" --> sshsp:__Sig__ | TBD | MAC of this message |
+
 Note:
+
+- Capabilities in a later report
+
+
+### Protocol Messages
+<!-- .slide: class="center" -->
+
+2. <!-- .element: style="counter-increment: li;" --> *Configuration Message* (smartphone configurator)
+
+| Type | Length | Purpose |
+| --- | --- | --- |
+| <!-- .element: class="tt" --> sshsp:__V__ | 1B | Protocol Version (0x01 == v0.1) |
+| <!-- .element: class="tt" --> sshsp:__T__ | 1B | Message Type: __S__ (0x53) |
+| <!-- .element: class="tt" --> sshsp:__Uuid__ | 16B | Unique Configurator ID |
+| <!-- .element: class="tt" --> sshsp:__Target__ | 16B | Unique Target ID |
+| <!-- .element: class="tt" --> sshsp:__Conf__ | variable | Configuration contents |
+| <!-- .element: class="tt" --> sshsp:__Sig__ | TBD | MAC of this message |
+
+Note:
+
+- Actual configuration values in a later report
 
 
 ### Lightweight Ciphers
 <!-- .slide: class="center" -->
 
+* AES-like and SPN
+    - LED
+    - PRESENT
+* <!-- .element: class="fragment" --> Feistel-like and ARX
+    - SIMON and SPECK designed by the NSA for the IoT
+    - LEA
+    - KATAN
+
 Note:
+
+- SPN = Substitution-Permutation Network
+    - *LED*: AES-style rounds, PRESENT S-Box, no key-schedule
+    - *PRESENT*: not like AES, hardware oriented
+- ARX = Addition Rotation XOR
+    - *SIMON* / *SPECK*: by the NSA for the Iot, no security analysis yet
+    - *LEA*: software oriented
+    - *KATAN*: hardware oriented
 
 
 ### Problems with the key exchange

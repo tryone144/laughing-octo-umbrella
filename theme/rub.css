@@ -617,13 +617,14 @@ body {
  * OPTIONAL STYLES
  *********************************************/
 .reveal .red {
-    color: #d50000;
-}
+  color: #d50000; }
 
 .reveal .orange {
-    color: #ffab00;
-}
+  color: #ffab00; }
 
 .reveal .green {
-    color: #90ae10;
-}
+  color: #90ae10; }
+
+.reveal .tt {
+  font-family: monospace; }
+
