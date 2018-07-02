@@ -9,8 +9,8 @@ theme: /theme/rub.css
 highlight: /theme/hl/github.css
 section_header: true
 section_footer: true
-title_slide: /theme/seceng_title.html
-end_slide: /theme/seceng_end.html
+title_slide: /theme/seceng_ba_title.html
+end_slide: /theme/seceng_ba_end.html
 transition: convex
 widescreen: false
 center: false
